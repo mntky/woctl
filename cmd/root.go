@@ -3,6 +3,7 @@ package cmd
 import (
 	"github.com/spf13/cobra"
 	"github.com/spf13/viper"
+	"fmt"
 )
 
 var (
@@ -24,7 +25,6 @@ func NewWoyectl() *cobra.Command {
 	cobra.OnInitialize(initConfig)
 
 	RootCmd.PersistentFlags().StringP("url", "", "", "api-server url")
-
 	viper.BindPFlag("url", RootCmd.PersistentFlags().Lookup("url"))
 
 	return RootCmd
@@ -34,10 +34,14 @@ func initConfig() {
 	if cfgFile != "" {
 		viper.SetConfigFile(cfgFile)
 	}
-	viper.SetConfigName(".w8a/config")
-	viper.AddConfigPath("$HOME")
+	viper.SetConfigType("yaml")
+	viper.AddConfigPath("$HOME/.w8a/")
+	viper.SetConfigName("config")
 	viper.AutomaticEnv()
-	viper.ReadInConfig()
+	err := viper.ReadInConfig()
+	if err != nil {
+		fmt.Println(err)
+	}
 }
 
 
