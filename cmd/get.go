@@ -1,9 +1,13 @@
 package cmd
 
 import (
-	"fmt"
+	//"fmt"
+	"errors"
+	"woctl/pkg"
+	"encoding/json"
 
 	"github.com/spf13/cobra"
+	"github.com/spf13/viper"
 )
 
 func init() {
@@ -14,17 +18,35 @@ func newgetCmd() *cobra.Command {
 	getCmd := &cobra.Command {
 		Use:		"get",
 		Short:	"get woyendetsa config and status",
-		Run:		func(cmd *cobra.Command, args []string) {
-			containername, err := cmd.Flags().GetString("name")
+		RunE:		func(cmd *cobra.Command, args []string) error {
+			endpointurl := viper.GetString("url")
+			containername, err := cmd.Flags().GetString("container")
 			if err != nil {
-				fmt.Println(err)
+				return errors.New("missing argment")
 			}
-			fmt.Println(containername)
-			fmt.Println(len(args))
+
+			m := map[string]interface{}{
+				"name": containername,
+			}
+			spec, err := json.Marshal(m)
+			if err != nil {
+				return err
+			}
+			pdata := pkg.Postdata{
+				endpointurl,
+				containername,
+				"get",
+				spec,
+			}
+			err = pkg.Send(pdata)
+			if err != nil {
+				return err
+			}
+			return nil
 		},
 	}
 
-	getCmd.PersistentFlags().StringP("node", "", "", "node name")
+	//getCmd.PersistentFlags().StringP("node", "", "", "node name")
 	getCmd.PersistentFlags().StringP("container", "", "", "container name")
 	return getCmd
 }
