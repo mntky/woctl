@@ -44,6 +44,7 @@ func newcreateCmd() *cobra.Command {
 				fmt.Println(err)
 			}
 
+			//body
 			pdata := pkg.Postdata{
 				endpointurl,
 				containername,
