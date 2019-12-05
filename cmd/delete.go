@@ -1,9 +1,11 @@
 package cmd
 
 import (
-	"fmt"
-
+	"errors"
+	"woctl/pkg"
+	"encoding/json"
 	"github.com/spf13/cobra"
+	"github.com/spf13/viper"
 )
 
 func init() {
@@ -13,13 +15,31 @@ func init() {
 func newdeleteCmd() *cobra.Command {
 	deleteCmd := &cobra.Command {
 		Use:		"delete",
-		Short:	"delete lxc",
-		Run:		func(cmd *cobra.Command, args []string) {
+		Short:	"delete lxc and spec",
+		RunE:		func(cmd *cobra.Command, args []string) error{
+			endpointurl := viper.GetString("url")
 			containername, err := cmd.Flags().GetString("name")
-			if err != nil {
-				fmt.Println(err)
+			if containername == "" {
+				return errors.New("missing argment")
 			}
-			fmt.Println(containername)
+			m := map[string]interface{}{
+				"name": containername,
+			}
+			spec, err := json.Marshal(m)
+			if err != nil {
+				return err
+			}
+			pdata := pkg.Postdata{
+				endpointurl,
+				containername,
+				"delete",
+				spec,
+			}
+			err = pkg.Send(pdata)
+			if err != nil {
+				return err
+			}
+			return nil
 		},
 	}
 
