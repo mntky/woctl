@@ -1,0 +1,6 @@
+{
+  "name": "minatoocontainer",
+  "replica": 2,
+  "test": "heyhey"
+}
+  
