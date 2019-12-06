@@ -2,7 +2,8 @@ package cmd
 
 import (
 	"fmt"
-	"encoding/json"
+	"io/ioutil"
+	//"encoding/json"
 
 	"github.com/spf13/cobra"
 	"github.com/spf13/viper"
@@ -20,26 +21,21 @@ func newcreateCmd() *cobra.Command {
 		Use:		"create",
 		Short:	"create lxc",
 		Run:		func(cmd *cobra.Command, args []string) {
-			//urlname, err := cmd.Flags().GetString("url")
-			//if err != nil {
-			//	fmt.Println(err)
-			//}
 			endpointurl := viper.GetString("url")
 
 			containername, err := cmd.Flags().GetString("name")
 			if err != nil {
 				fmt.Println(err)
 			}else if containername == "" {
-				//ランダムなコンテナ名つける
 				containername = pkg.Naming()
 			}
 
-			m := map[string]interface{}{
-				"name":	containername,
-				"replica": 2,
-				"test": "test",
+			yamlfilename, err := cmd.Flags().GetString("file")
+			if err != nil {
+				fmt.Println(err)
 			}
-			spec, err := json.Marshal(m)
+			//TODO yamlの構文チェック機能をつけたい。
+			spec, err := ioutil.ReadFile(yamlfilename)
 			if err != nil {
 				fmt.Println(err)
 			}
@@ -55,11 +51,10 @@ func newcreateCmd() *cobra.Command {
 			if err != nil {
 				fmt.Println(err)
 			}
-			//fmt.Println(containername)
-			//fmt.Println(endpointurl)
 		},
 	}
 
 	createCmd.PersistentFlags().StringP("name", "n", "", "container name")
+	createCmd.PersistentFlags().StringP("file", "f", "", "select yaml path")
 	return createCmd
 }

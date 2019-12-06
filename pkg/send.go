@@ -19,6 +19,7 @@ func Send(data Postdata) error{
 	fmt.Println(string(data.Spec))
 	fmt.Println(data.Spec)
 	fmt.Println("---send---")
+
 	req, err := http.NewRequest(
 		"POST",
 		data.Endpointurl+"/api/lxc/"+data.Commandtype,
