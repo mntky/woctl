@@ -52,6 +52,7 @@ func newupdateCmd() *cobra.Command {
 		},
 	}
 
+	//TODO updateする際の名前指定はyamlにmetadataフィールド追加してその名前を基準にアップデートする。
 	updateCmd.PersistentFlags().StringP("name", "n", "", "container name")
 	updateCmd.PersistentFlags().StringP("file", "f", "", "select yaml path")
 	return updateCmd

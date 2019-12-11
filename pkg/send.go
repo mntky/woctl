@@ -9,7 +9,6 @@ import (
 
 type Postdata struct {
 	Endpointurl		string
-	Containername	string
 	Commandtype		string
 	Spec					[]byte
 }

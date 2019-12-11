@@ -1,9 +1,9 @@
 package cmd
 
 import (
-	"errors"
+	"fmt"
+	"io/ioutil"
 	"woctl/pkg"
-	"encoding/json"
 	"github.com/spf13/cobra"
 	"github.com/spf13/viper"
 )
@@ -15,23 +15,23 @@ func init() {
 func newdeleteCmd() *cobra.Command {
 	deleteCmd := &cobra.Command {
 		Use:		"delete",
-		Short:	"delete lxc and spec",
+		Short:	"delete spec",
 		RunE:		func(cmd *cobra.Command, args []string) error{
 			endpointurl := viper.GetString("url")
-			containername, err := cmd.Flags().GetString("name")
-			if containername == "" {
-				return errors.New("missing argment")
-			}
-			m := map[string]interface{}{
-				"name": containername,
-			}
-			spec, err := json.Marshal(m)
+			specyaml, err := cmd.Flags().GetString("file")
 			if err != nil {
 				return err
 			}
+			spec, err := ioutil.ReadFile(specyaml)
+			if err != nil {
+				return err
+			}
+
+			//debug
+			fmt.Printf("%T\n",spec)
+
 			pdata := pkg.Postdata{
 				endpointurl,
-				containername,
 				"delete",
 				spec,
 			}
@@ -43,6 +43,6 @@ func newdeleteCmd() *cobra.Command {
 		},
 	}
 
-	deleteCmd.PersistentFlags().StringP("name", "n", "", "container name")
+	deleteCmd.PersistentFlags().StringP("file", "f", "", "spec file name")
 	return deleteCmd
 }

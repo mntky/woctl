@@ -1,5 +1,7 @@
-{
-  "name": "minatooo",
-  "age": 2
-}
-  
+name: testcontainer
+spec:
+ container:
+ - name: testcontainer 
+   distri: debian
+   release:  buster
+   arch: amd64

@@ -1,7 +1,7 @@
 package main
 
 import (
-	"os"
+	//"os"
 	"fmt"
 	"time"
 	"math/rand"
@@ -13,8 +13,7 @@ func main() {
 	rand.Seed(time.Now().UnixNano())
 
 	command := cmd.NewWoyectl()
-	if err :=command.Execute(); err != nil {
+	if err := command.Execute(); err != nil {
 		fmt.Println(err)
-		os.Exit(1)
 	}
 }

@@ -1,7 +1,7 @@
 package cmd
 
 import (
-	"fmt"
+	//"fmt"
 	"io/ioutil"
 	//"encoding/json"
 
@@ -9,7 +9,6 @@ import (
 	"github.com/spf13/viper"
 
 	"woctl/pkg"
-	//"github.com/lxc/lxd/shared/api"
 )
 
 func init() {
@@ -20,41 +19,32 @@ func newcreateCmd() *cobra.Command {
 	createCmd := &cobra.Command {
 		Use:		"create",
 		Short:	"create lxc",
-		Run:		func(cmd *cobra.Command, args []string) {
+		RunE:		func(cmd *cobra.Command, args []string) error {
 			endpointurl := viper.GetString("url")
-
-			containername, err := cmd.Flags().GetString("name")
+			specname, err := cmd.Flags().GetString("file")
 			if err != nil {
-				fmt.Println(err)
-			}else if containername == "" {
-				containername = pkg.Naming()
-			}
-
-			yamlfilename, err := cmd.Flags().GetString("file")
-			if err != nil {
-				fmt.Println(err)
+				return err
 			}
 			//TODO yamlの構文チェック機能をつけたい。
-			spec, err := ioutil.ReadFile(yamlfilename)
+			spec, err := ioutil.ReadFile(specname)
 			if err != nil {
-				fmt.Println(err)
+				return err
 			}
 
 			//body
 			pdata := pkg.Postdata{
 				endpointurl,
-				containername,
 				"create",
 				spec,
 			}
 			err = pkg.Send(pdata)
 			if err != nil {
-				fmt.Println(err)
+				return err
 			}
+			return nil
 		},
 	}
 
-	createCmd.PersistentFlags().StringP("name", "n", "", "container name")
 	createCmd.PersistentFlags().StringP("file", "f", "", "select yaml path")
 	return createCmd
 }
