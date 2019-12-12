@@ -20,7 +20,7 @@ func newgetCmd() *cobra.Command {
 		Short:	"get woyendetsa config and status",
 		RunE:		func(cmd *cobra.Command, args []string) error {
 			endpointurl := viper.GetString("url")
-			containername, err := cmd.Flags().GetString("container")
+			containername, err := cmd.Flags().GetString("name")
 			if err != nil {
 				return errors.New("missing argment")
 			}
@@ -45,7 +45,6 @@ func newgetCmd() *cobra.Command {
 		},
 	}
 
-	//getCmd.PersistentFlags().StringP("node", "", "", "node name")
 	getCmd.PersistentFlags().StringP("name", "", "", "spec name")
 	return getCmd
 }

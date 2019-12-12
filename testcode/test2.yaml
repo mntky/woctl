@@ -1,0 +1,9 @@
+name: mrkspec
+spec:
+  container:
+    name: mrk
+    distri: debian
+    release:  stretch
+    arch: amd64
+  test:
+    name: test
