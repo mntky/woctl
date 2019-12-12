@@ -1,7 +1,7 @@
 package cmd
 
 import (
-	//"fmt"
+	"fmt"
 	"io/ioutil"
 	//"encoding/json"
 
@@ -30,6 +30,8 @@ func newcreateCmd() *cobra.Command {
 			if err != nil {
 				return err
 			}
+
+			fmt.Println(string(spec))
 
 			//body
 			pdata := pkg.Postdata{

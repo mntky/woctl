@@ -34,7 +34,6 @@ func newgetCmd() *cobra.Command {
 			}
 			pdata := pkg.Postdata{
 				endpointurl,
-				containername,
 				"get",
 				spec,
 			}
@@ -47,6 +46,6 @@ func newgetCmd() *cobra.Command {
 	}
 
 	//getCmd.PersistentFlags().StringP("node", "", "", "node name")
-	getCmd.PersistentFlags().StringP("container", "", "", "container name")
+	getCmd.PersistentFlags().StringP("name", "", "", "spec name")
 	return getCmd
 }

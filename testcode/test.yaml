@@ -1,7 +1,9 @@
 name: testcontainer
 spec:
- container:
- - name: testcontainer 
-   distri: debian
-   release:  buster
-   arch: amd64
+  container:
+    name: testcontainer 
+    distri: debian
+    release:  buster
+    arch: amd64
+  test:
+    name: test
