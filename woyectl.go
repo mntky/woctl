@@ -1,8 +1,6 @@
 package main
 
 import (
-	//"os"
-	"fmt"
 	"time"
 	"math/rand"
 
@@ -14,6 +12,6 @@ func main() {
 
 	command := cmd.NewWoyectl()
 	if err := command.Execute(); err != nil {
-		fmt.Println(err)
+		return
 	}
 }
