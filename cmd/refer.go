@@ -23,8 +23,7 @@ func newgetCmd() *cobra.Command {
 			specname, err := cmd.Flags().GetString("name")
 			if err != nil {
 				return errors.New("missing argment")
-			}else
-
+			}
 			m := map[string]interface{}{
 				"name": specname,
 			}
