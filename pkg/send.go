@@ -15,8 +15,8 @@ type Postdata struct {
 
 //TODO clientを使いまわすようにする。
 func Send(data Postdata) error{
+	//fmt.Println(string(data.Spec))
 	fmt.Println(string(data.Spec))
-	fmt.Println(data.Spec)
 	fmt.Println("---send---")
 
 	req, err := http.NewRequest(
