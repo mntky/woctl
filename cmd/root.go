@@ -35,7 +35,7 @@ func initConfig() {
 		viper.SetConfigFile(cfgFile)
 	}
 	viper.SetConfigType("yaml")
-	viper.AddConfigPath("$HOME/.w8a/")
+	viper.AddConfigPath("$HOME/.w8aclient/")
 	viper.SetConfigName("config")
 	viper.AutomaticEnv()
 	err := viper.ReadInConfig()
