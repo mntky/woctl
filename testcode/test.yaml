@@ -2,8 +2,8 @@ name: testcontainer
 spec:
   container:
     name: testcontainer 
-    distri: debian
-    release:  buster
+    distro: ubuntu
+    release:  trusty
     arch: amd64
   test:
     name: test

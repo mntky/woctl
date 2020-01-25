@@ -1,9 +1,9 @@
-name: mrkspec2
+name: bionicspec
 spec:
   container:
-    name: mrk
-    distri: debian
-    release:  stretch
+    name: testubuntu
+    distri: ubuntu
+    release:  bionic
     arch: amd64
   test:
     name: test
